@@ -30,10 +30,16 @@ class BoletoResponseFactory
     {
         $boletos = new Collection();
 
+        dd($this->boletos);
+
         foreach($this->boletos as $boleto) {
             $boletoResponse = new BoletoResponse();
+//            $boletoResponse->setBeneficiario($this->makeBeneficiario());
+//            dd($boleto);
             $boletos[] = $boletoResponse;
         }
+
+        dd($boletos);
 
         return $boletos;
 

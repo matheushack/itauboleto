@@ -17,15 +17,15 @@ use MatheusHack\ItauBoleto\Constants\TipoRegistro;
 
 class BoletoRequest
 {
-    public $tipo_ambiente = TipoAmbiente::TESTE;
+    public $tipo_ambiente = TipoAmbiente::PRODUCAO;
 
     public $tipo_registro = TipoRegistro::REGISTRO;
 
     public $tipo_cobranca = TipoCobranca::BOLETOS;
 
-    public $tipo_produto;
+    public $tipo_produto = '00006';
 
-    public $subproduto;
+    public $subproduto = '00008';
 
     public $beneficiario;
 

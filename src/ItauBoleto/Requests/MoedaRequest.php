@@ -11,7 +11,7 @@ namespace MatheusHack\ItauBoleto\Requests;
 
 class MoedaRequest
 {
-    public $codigo_moeda_cnab;
+    public $codigo_moeda_cnab = '09';
 
     public $quantidade_moeda;
 }

@@ -8,8 +8,34 @@
 
 namespace MatheusHack\ItauBoleto;
 
+use MatheusHack\ItauBoleto\Helpers\Fractal;
+use MatheusHack\ItauBoleto\Services\ServiceBoleto;
+use MatheusHack\ItauBoleto\Exceptions\BoletoException;
+use MatheusHack\ItauBoleto\Transformers\BoletoTransformer;
+use MatheusHack\ItauBoleto\Factories\BoletoResponseFactory;
+
+
 
 class Boleto
 {
+    private $serviceBoleto;
 
+    function __construct()
+    {
+        $this->serviceBoleto = new ServiceBoleto();
+    }
+
+    public function registrar(array $boletos)
+    {
+        if(empty($boletos))
+            throw new BoletoException('Requisição inválida');
+
+        $boletos = $this->serviceBoleto->registrar($boletos);
+
+        if($boletos instanceof BoletoResponseFactory)
+            return Fractal::collection($boletos, new BoletoTransformer)->toJson();
+
+        throw new BoletoException('Nenhuma boleto registrado');
+
+    }
 }

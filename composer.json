@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "MatheusHack\\ItauBoleto": "src/ItauBoleto/"
+      "MatheusHack\\ItauBoleto\\": "src/ItauBoleto/"
     }
   }
 }

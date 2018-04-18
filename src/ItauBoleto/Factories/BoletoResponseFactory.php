@@ -20,28 +20,20 @@ class BoletoResponseFactory
     function __construct($response)
     {
         $this->boletos = $response;
-        $boletos = new BoletosResponse();
-        $boletos->setBoletos($this->makeBoletos());
-
-        return new Collection($boletos);
     }
 
-    public function makeBoletos()
+    public function make()
     {
+        $boletosResponse = new BoletosResponse();
         $boletos = new Collection();
-
-        dd($this->boletos);
 
         foreach($this->boletos as $boleto) {
             $boletoResponse = new BoletoResponse();
-//            $boletoResponse->setBeneficiario($this->makeBeneficiario());
-//            dd($boleto);
             $boletos[] = $boletoResponse;
         }
 
-        dd($boletos);
-
-        return $boletos;
+        $boletosResponse->setBoletos($boletos);
+        return $boletosResponse;
 
     }
 }

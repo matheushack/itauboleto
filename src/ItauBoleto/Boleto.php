@@ -32,7 +32,7 @@ class Boleto
 
         $boletos = $this->serviceBoleto->registrar($boletos);
 
-        if($boletos instanceof BoletoResponseFactory)
+        if($boletos->count() > 0)
             return Fractal::collection($boletos, new BoletoTransformer)->toJson();
 
         throw new BoletoException('Nenhuma boleto registrado');

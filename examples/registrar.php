@@ -42,7 +42,7 @@ $boleto = new Boleto();
 
 try {
     $boletosRegistrados = $boleto->registrar($boletos);
-    dd($boletosRegistrados);
+    echo $boletosRegistrados;
 }catch(\Exception $e){
     dd($e->getMessage());
 }

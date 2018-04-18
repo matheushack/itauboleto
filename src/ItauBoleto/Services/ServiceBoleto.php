@@ -33,8 +33,12 @@ class ServiceBoleto
 
         $response = $this->itauClient->post($boletosCollection);
 
-        if(!empty($response))
-            return new BoletoResponseFactory($response);
+        if(!empty($response)) {
+            $boletoResponseFactory = new BoletoResponseFactory($response);
+            $boletoResponse = $boletoResponseFactory->make();
+
+            return $boletoResponse->getBoletos();
+        }
 
         throw new BoletoException('Não foi possível registrar os boletos');
     }

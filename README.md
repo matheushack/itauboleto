@@ -48,7 +48,8 @@ try {
         'clientId' => 'XXXXXXXX',
         'clientSecret' => 'XXXXXXXX',
         'itauKey' => 'XXXXXXXX',
-        'cnpj' => 'XXXXXXXX'
+        'cnpj' => 'XXXXXXXX',
+        'production' => false
     ]);
 
     $boletosRegistrados = $boleto->registrar($boletos);

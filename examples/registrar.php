@@ -38,11 +38,18 @@ $boletos[] = [
     ]
 ];
 
-$boleto = new Boleto();
 
 try {
+    $boleto = new Boleto([
+        'clientId' => '123132123',
+        'clientSecret' => '15645564',
+        'itauKey' => '3',
+        'cnpj' => '4'
+    ]);
+
     $boletosRegistrados = $boleto->registrar($boletos);
     echo $boletosRegistrados;
+
 }catch(\Exception $e){
     dd($e->getMessage());
 }

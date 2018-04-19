@@ -10,19 +10,20 @@ namespace MatheusHack\ItauBoleto;
 
 use MatheusHack\ItauBoleto\Helpers\Fractal;
 use MatheusHack\ItauBoleto\Services\ServiceBoleto;
+use MatheusHack\ItauBoleto\Validates\BoletoValidate;
 use MatheusHack\ItauBoleto\Exceptions\BoletoException;
 use MatheusHack\ItauBoleto\Transformers\BoletoTransformer;
-use MatheusHack\ItauBoleto\Factories\BoletoResponseFactory;
-
-
 
 class Boleto
 {
     private $serviceBoleto;
 
-    function __construct()
+    function __construct($config = [])
     {
-        $this->serviceBoleto = new ServiceBoleto();
+        $validate = new BoletoValidate();
+        $validate->config($config);
+
+        $this->serviceBoleto = new ServiceBoleto($config);
     }
 
     public function registrar(array $boletos)
@@ -36,6 +37,5 @@ class Boleto
             return Fractal::collection($boletos, new BoletoTransformer)->toJson();
 
         throw new BoletoException('Nenhuma boleto registrado');
-
     }
 }

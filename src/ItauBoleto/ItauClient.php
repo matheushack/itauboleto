@@ -23,8 +23,21 @@ class ItauClient
 
     private $expireToken;
 
-    public function __construct()
+    private $clientId;
+
+    private $clientSecret;
+
+    private $itauKey;
+
+    private $cnpj;
+
+    public function __construct(array $config)
     {
+        $this->clientId = $config['clientId'];
+        $this->clientSecret = $config['clientSecret'];
+        $this->itauKey = $config['itauKey'];
+        $this->cnpj = $config['cnpj'];
+
         $this->httpClient = new Client([
             'base_uri' => 'https://gerador-boletos.itau.com.br/router-gateway-app/public/codigo_barras/registro',
             'defaults' => [
@@ -44,8 +57,8 @@ class ItauClient
         if($accessToken)
             $headers['access_token'] = $accessToken;
 
-        $headers['itau-chave'] = '';
-        $headers['identificador'] = '';//CNPJ
+        $headers['itau-chave'] = $this->itauKey;
+        $headers['identificador'] = $this->cnpj;
 
         return $headers;
     }
@@ -62,9 +75,10 @@ class ItauClient
     {
          try {
             $result = $this->doAuthRequest([
-                'grant_type' => '',
-                'client_id' => '',
-                'client_secret' => '',
+                'scope' => 'readonly',
+                'grant_type' => base64_encode($this->clientId.':'.$this->clientSecret),
+                'client_id' => $this->clientId,
+                'client_secret' => $this->clientSecret
             ]);
 
             if ($result && !empty($result->access_token)) {
@@ -83,7 +97,13 @@ class ItauClient
 
     public function doAuthRequest($parameters)
     {
-        $response = $this->httpClient->post("https://oauth.itau.com.br/identity/connect/token", ['json' => $parameters]);
+        $response = $this->httpClient->post("https://oauth.itau.com.br/identity/connect/token", [
+            'headers' => [
+                'Content-Type' => 'application/x-www-form-urlencoded'
+            ],
+            'json' => $parameters
+        ]);
+
         return json_decode($response->getBody());
     }
 

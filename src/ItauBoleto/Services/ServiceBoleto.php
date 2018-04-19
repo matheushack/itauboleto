@@ -18,9 +18,9 @@ class ServiceBoleto
 {
     private $itauClient;
 
-    function __construct()
+    function __construct(array $config)
     {
-        $this->itauClient = new ItauClient();
+        $this->itauClient = new ItauClient($config);
     }
 
     public function registrar(array $boletos)

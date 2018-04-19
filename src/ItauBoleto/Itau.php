@@ -14,7 +14,7 @@ use MatheusHack\ItauBoleto\Validates\BoletoValidate;
 use MatheusHack\ItauBoleto\Exceptions\BoletoException;
 use MatheusHack\ItauBoleto\Transformers\BoletoTransformer;
 
-class Boleto
+class Itau
 {
     private $serviceBoleto;
 

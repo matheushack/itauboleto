@@ -8,7 +8,7 @@
 
 require '../vendor/autoload.php';
 
-use MatheusHack\ItauBoleto\Boleto;
+use MatheusHack\ItauBoleto\Itau;
 
 $boletos[] = [
     'tipo_ambiente' => \MatheusHack\ItauBoleto\Constants\TipoAmbiente::TESTE,
@@ -40,7 +40,7 @@ $boletos[] = [
 
 
 try {
-    $boleto = new Boleto([
+    $itau = new Itau([
         'clientId' => 'XXXXXXXX',
         'clientSecret' => 'XXXXXXXX',
         'itauKey' => 'XXXXXXXX',
@@ -48,7 +48,7 @@ try {
         'production' => false
     ]);
 
-    $boletosRegistrados = $boleto->registrar($boletos);
+    $boletosRegistrados = $itau->registrar($boletos);
     echo $boletosRegistrados;
 
 }catch(\Exception $e){

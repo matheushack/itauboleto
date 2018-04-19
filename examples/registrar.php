@@ -27,11 +27,11 @@ $boletos[] = [
     ],
     'pagador' => [
         'documento_identificacao' => '',
-        'nome'=> 'Matheus',
+        'nome'=> 'Teste',
         'logradouro' => 'Rua teste',
         'cidade' => 'São Paulo',
         'uf' => 'SP',
-        'cep' => '07080120'
+        'cep' => '99999999'
     ],
     'moeda' => [
         'quantidade' => 100
@@ -41,10 +41,10 @@ $boletos[] = [
 
 try {
     $boleto = new Boleto([
-        'clientId' => '123132123',
-        'clientSecret' => '15645564',
-        'itauKey' => '3',
-        'cnpj' => '4'
+        'clientId' => 'XXXXXXXX',
+        'clientSecret' => 'XXXXXXXX',
+        'itauKey' => 'XXXXXXXX',
+        'cnpj' => 'XXXXXXXX'
     ]);
 
     $boletosRegistrados = $boleto->registrar($boletos);

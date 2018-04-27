@@ -31,7 +31,7 @@ class ServiceBoleto
         foreach($boletos as $boleto)
             $boletosCollection[] = $boletRequestFactory->make($boleto);
 
-        $response = $this->itauClient->execute($boletosCollection);
+        $response = $this->itauClient->registrar($boletosCollection);
 
         if(!empty($response)) {
             $boletoResponseFactory = new BoletoResponseFactory($response);

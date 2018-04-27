@@ -51,9 +51,9 @@ class ItauClient
         $this->boletoUrl = (data_get($config,'production', false) === true ? self::BOLETO_PRODUCTION : self::BOLETO_TEST);
     }
 
-    public function execute($parameters)
+    private function __call($parameters)
     {
-        $this->authorize();
+        $this->__authorize();
 
         if(empty($this->accessToken))
             throw new BoletoException('AccessToken - Não autorizado pelo banco');
@@ -81,7 +81,7 @@ class ItauClient
         return $jsonResponse;
     }
 
-    private function authorize()
+    private function __authorize()
     {
         if(empty($this->accessToken)){
             try {
@@ -115,5 +115,10 @@ class ItauClient
         }
 
         return false;
+    }
+
+    public function registrar($parameters)
+    {
+        return $this->__call($parameters);
     }
 }

@@ -58,4 +58,4 @@ try {
 
 ```
 ##Exemplos
-https://github.com/matheushack/itauboleto/examples/
+https://github.com/matheushack/itauboleto/tree/master/examples

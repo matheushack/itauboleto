@@ -13,5 +13,5 @@ class TipoPagamento
 {
     const A_VISTA = 1;
 
-    const COM_VENCIMENTO_DETERMINADO = '3';
+    const COM_VENCIMENTO_DETERMINADO = 3;
 }

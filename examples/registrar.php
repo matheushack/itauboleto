@@ -8,43 +8,30 @@
 
 require '../vendor/autoload.php';
 
+use Carbon\Carbon;
 use MatheusHack\ItauBoleto\Itau;
+use MatheusHack\ItauBoleto\Constants\Especie;
 
 $boletos[] = [
-    'tipo_ambiente' => \MatheusHack\ItauBoleto\Constants\TipoAmbiente::TESTE,
     'tipo_carteira_titulo' => 109,
-    'nosso_numero' => '50622137',
-    'data_vencimento' => \Carbon\Carbon::now()->addDays(15)->format('Y-m-d'),
+    'nosso_numero' => 'XXXXXXX',
+    'data_vencimento' => Carbon::now()->addDays(15)->format('Y-m-d'),
     'valor_cobrado' => '100,00',
-    'especie' => \MatheusHack\ItauBoleto\Constants\Especie::DUPLICATA_MERCANTIL,
-    'data_emissao' => \Carbon\Carbon::now()->format('Y-m-d'),
+    'especie' => Especie::DUPLICATA_MERCANTIL,
+    'data_emissao' => Carbon::now()->format('Y-m-d'),
     'beneficiario' => [
-        'documento_identificacao' => '09127271000187',
-        'agencia' => '0189',
-        'conta' => '00926',
-        'digito_conta' => '9'
+        'documento_identificacao' => 'XXXXXXXXXXXXXX',
+        'agencia' => 'XXXX',
+        'conta' => 'XXXXXXX',
+        'digito_conta' => 'X'
     ],
     'pagador' => [
-        'documento_identificacao' => '09127271000187',
+        'documento_identificacao' => 'XXXXXXXXXXXXXX',
         'nome'=> 'Teste',
         'logradouro' => 'Rua teste',
         'cidade' => 'São Paulo',
         'uf' => 'SP',
-        'cep' => '07080120'
-    ],
-    'titulo_aceite' => 'S',
-    'tipo_pagamento' => 1,
-    'juros' => [
-        'tipo' => \MatheusHack\ItauBoleto\Constants\TipoJuros::ISENTO
-    ],
-    'multa' => [
-        'tipo' => \MatheusHack\ItauBoleto\Constants\TipoMulta::ISENTO
-    ],
-    'grupo_desconto' => [
-        'tipo' => \MatheusHack\ItauBoleto\Constants\TipoDesconto::SEM_DESCONTO
-    ],
-    'recebimento_divergente' => [
-        'tipo_autorizacao' => '3'
+        'cep' => 'XXXXXXXX'
     ]
 ];
 

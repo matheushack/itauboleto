@@ -9,11 +9,13 @@
 namespace MatheusHack\ItauBoleto\Requests;
 
 
+use MatheusHack\ItauBoleto\Constants\TipoJuros;
+
 class JurosRequest
 {
     public $data_juros;
 
-    public $tipo_juros;
+    public $tipo_juros = TipoJuros::ISENTO;
 
     public $valor_juros;
 

@@ -197,7 +197,7 @@ class BoletoRequestFactory
     private function setRecebimentoDivergente($data = [])
     {
         $recebimentoDivergente = new RecebimentoDivergenteRequest();
-        $recebimentoDivergente->tipo_autorizacao_recebimento = data_get($data, 'tipo_autorizacao', $recebimentoDivergente->tipo_autorizacao_recebimento);
+        $recebimentoDivergente->tipo_autorizacao_recebimento = Boleto::formatString(data_get($data, 'tipo_autorizacao', $recebimentoDivergente->tipo_autorizacao_recebimento), 1);
         $recebimentoDivergente->tipo_valor_percentual_recebimento = data_get($data, 'tipo_valor_percentual', $recebimentoDivergente->tipo_valor_percentual_recebimento);
         $recebimentoDivergente->valor_minimo_recebimento = data_get($data, 'valor_minimo', $recebimentoDivergente->valor_minimo_recebimento);
         $recebimentoDivergente->percentual_minimo_recebimento = data_get($data, 'percentual_minimo', $recebimentoDivergente->percentual_minimo_recebimento);

@@ -9,11 +9,13 @@
 namespace MatheusHack\ItauBoleto\Requests;
 
 
+use MatheusHack\ItauBoleto\Constants\TipoMulta;
+
 class MultaRequest
 {
     public $data_multa;
 
-    public $tipo_multa;
+    public $tipo_multa = TipoMulta::ISENTO;
 
     public $valor_multa;
 

@@ -35,7 +35,7 @@ class BoletoRequest
 
     public $uso_banco;
 
-    public $titulo_aceite;
+    public $titulo_aceite = 'S';
 
     public $pagador;
 

@@ -9,11 +9,13 @@
 namespace MatheusHack\ItauBoleto\Requests;
 
 
+use MatheusHack\ItauBoleto\Constants\TipoDesconto;
+
 class GrupoDescontoRequest
 {
     public $data_desconto;
 
-    public $tipo_desconto;
+    public $tipo_desconto = TipoDesconto::SEM_DESCONTO;
 
     public $valor_desconto;
 

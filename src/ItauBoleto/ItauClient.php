@@ -11,18 +11,19 @@ namespace MatheusHack\ItauBoleto;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use MatheusHack\ItauBoleto\Constants\Status;
+use MatheusHack\ItauBoleto\Constants\TipoAmbiente;
 use MatheusHack\ItauBoleto\Exceptions\BoletoException;
 
 
 class ItauClient
 {
-    const BOLETO_TEST = 'https://gerador-boletos.itau.com.br/router-gateway-app/public/codigo_barras/registro';
+    const BOLETO_TESTE = 'https://gerador-boletos.itau.com.br/router-gateway-app/public/codigo_barras/registro';
 
-    const BOLETO_PRODUCTION = 'https://gerador-boletos.itau.com.br/router-gateway-app/public/codigo_barras/registro';
+    const BOLETO_PRODUCAO = 'https://gerador-boletos.itau.com.br/router-gateway-app/public/codigo_barras/registro';
 
-    const OAUTH_TEST = 'https://oauth.itau.com.br/identity/connect/token';
+    const OAUTH_TESTE = 'https://oauth.itau.com.br/identity/connect/token';
 
-    const OAUTH_PRODUCTION = 'https://autorizador-boletos.itau.com.br/';
+    const OAUTH_PRODUCAO = 'https://autorizador-boletos.itau.com.br/';
 
     private $httpClient;
 
@@ -40,6 +41,8 @@ class ItauClient
 
     private $boletoUrl;
 
+    private $ambiente;
+
     public function __construct(array $config)
     {
         $this->httpClient = new Client();
@@ -48,8 +51,9 @@ class ItauClient
         $this->clientSecret = $config['clientSecret'];
         $this->itauKey = $config['itauKey'];
         $this->cnpj = $config['cnpj'];
-        $this->oAuthUrl = (data_get($config,'production', false) === true ? self::OAUTH_PRODUCTION : self::OAUTH_TEST);
-        $this->boletoUrl = (data_get($config,'production', false) === true ? self::BOLETO_PRODUCTION : self::BOLETO_TEST);
+        $this->oAuthUrl = (data_get($config,'production', false) === true ? self::OAUTH_PRODUCAO : self::OAUTH_TESTE);
+        $this->boletoUrl = (data_get($config,'production', false) === true ? self::BOLETO_PRODUCAO : self::BOLETO_TESTE);
+        $this->ambiente = (data_get($config,'production', false) === true ? TipoAmbiente::PRODUCAO : TipoAmbiente::TESTE);
     }
 
     private function __callItau($parameters)
@@ -60,6 +64,8 @@ class ItauClient
             throw new BoletoException('AccessToken - Não autorizado pelo banco');
 
         try {
+            $parameters->tipo_ambiente = $this->ambiente;
+
             $response = $this->httpClient->request('post', $this->boletoUrl, [
                 'headers' => [
                     'Accept' => 'application/vnd.itau',

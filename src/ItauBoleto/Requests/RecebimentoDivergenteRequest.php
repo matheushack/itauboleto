@@ -9,9 +9,11 @@
 namespace MatheusHack\ItauBoleto\Requests;
 
 
+use MatheusHack\ItauBoleto\Constants\TipoAutorizacaoRecebimento;
+
 class RecebimentoDivergenteRequest
 {
-    public $tipo_autorizacao_recebimento;
+    public $tipo_autorizacao_recebimento = TipoAutorizacaoRecebimento::TITULO_NAO_ACEITA_PAGAMENTOS_VALORES_DIVERGENTES;
 
     public $tipo_valor_percentual_recebimento;
 

@@ -9,6 +9,7 @@
 namespace MatheusHack\ItauBoleto\Transformers;
 
 use League\Fractal;
+use MatheusHack\ItauBoleto\Constants\Status;
 use MatheusHack\ItauBoleto\Response\BoletoResponse;
 
 class BoletoTransformer extends Fractal\TransformerAbstract
@@ -39,7 +40,8 @@ class BoletoTransformer extends Fractal\TransformerAbstract
             'outroAcrescimo' => $boleto->getOutroAcrescimo(),
             'totalCobrado' => $boleto->getTotalCobrado(),
             'textoInformacaoClienteBeneficiario' => $boleto->getTextoInformacaoClienteBeneficiario(),
-            'codigoMensagemErro' => $boleto->getCodigoMensagemErro(),
+            'registrado' => ($boleto->getStatus() == Status::REGISTRADO ? true : false),
+            'erros' => $boleto->getErros()
         ];
     }
 }

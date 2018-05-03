@@ -25,13 +25,12 @@ class ServiceBoleto
 
     public function registrar(array $boletos)
     {
-        $boletosCollection = new Collection();
         $boletRequestFactory = new BoletoRequestFactory();
 
-        foreach($boletos as $boleto)
-            $boletosCollection[] = $boletRequestFactory->make($boleto);
-
-        $response = $this->itauClient->registrar($boletosCollection);
+        foreach($boletos as $boleto) {
+            $request = $boletRequestFactory->make($boleto);
+            $response[] = $this->itauClient->registrar($request);
+        }
 
         if(!empty($response)) {
             $boletoResponseFactory = new BoletoResponseFactory($response);

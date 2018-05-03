@@ -55,7 +55,9 @@ class BoletoResponse
 
     private $textoInformacaoClienteBeneficiario;
 
-    private $codigoMensagemErro;
+    private $status;
+
+    private $erros;
 
     /**
      * @return mixed
@@ -456,18 +458,36 @@ class BoletoResponse
     /**
      * @return mixed
      */
-    public function getCodigoMensagemErro()
+    public function getStatus()
     {
-        return $this->codigoMensagemErro;
+        return $this->status;
     }
 
     /**
-     * @param mixed $codigoMensagemErro
+     * @param mixed $status
      * @return BoletoResponse
      */
-    public function setCodigoMensagemErro($codigoMensagemErro)
+    public function setStatus($status)
     {
-        $this->codigoMensagemErro = $codigoMensagemErro;
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getErros()
+    {
+        return $this->erros;
+    }
+
+    /**
+     * @param mixed $erros
+     * @return BoletoResponse
+     */
+    public function setErros($erros)
+    {
+        $this->erros = $erros;
         return $this;
     }
 }

@@ -10,6 +10,7 @@ namespace MatheusHack\ItauBoleto;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use MatheusHack\ItauBoleto\Constants\Status;
 use MatheusHack\ItauBoleto\Exceptions\BoletoException;
 
 
@@ -51,7 +52,7 @@ class ItauClient
         $this->boletoUrl = (data_get($config,'production', false) === true ? self::BOLETO_PRODUCTION : self::BOLETO_TEST);
     }
 
-    private function __call($parameters)
+    private function __callItau($parameters)
     {
         $this->__authorize();
 
@@ -66,19 +67,41 @@ class ItauClient
                     'itau-chave' => $this->itauKey,
                     'identificador' => $this->cnpj
                 ],
-                'json' => $parameters
+                'body' => json_encode($parameters)
             ]);
+
+            $bodyResponse = json_decode($response->getBody());
 
         } catch (RequestException $e) {
             $response = $e->getResponse();
+            $bodyResponse = json_decode($response->getBody());
         }
 
-        $jsonResponse = json_decode($response->getBody());
+        if(data_get($bodyResponse, 'codigo')) {
+            $jsonResponse = $bodyResponse;
+            $bodyResponse = $parameters;
 
-        if(data_get($jsonResponse, 'codigo', null) == 400)
-            throw new BoletoException(data_get($jsonResponse, 'mensagem', null));
+            if(data_get($jsonResponse, 'mensagem')){
+                if(data_get($jsonResponse, 'campos')) {
+                    $bodyResponse->status = Status::ERRO_VALIDACAO;
+                    $mensagens = [];
 
-        return $jsonResponse;
+                    foreach($jsonResponse->campos as $campo){
+                        $mensagens[$campo->campo] = $campo->mensagem;
+                    }
+
+                    $bodyResponse->erros = $mensagens;
+                }else{
+                    $bodyResponse->status = Status::ERRO;
+                    $bodyResponse->erros = ['erro' => data_get($jsonResponse, 'mensagem')];
+                }
+            }
+
+        }else{
+            $bodyResponse->status = Status::REGISTRADO;
+        }
+
+        return $bodyResponse;
     }
 
     private function __authorize()
@@ -87,13 +110,12 @@ class ItauClient
             try {
                 $responseOauth = $this->httpClient->post($this->oAuthUrl, [
                     'headers' => [
-                        'Content-Type' => 'application/x-www-form-urlencoded'
+                        'Content-Type' => 'application/x-www-form-urlencoded',
+                        'Authorization' => 'Basic '.base64_encode($this->clientId . ':' . $this->clientSecret)
                     ],
-                    'json' => [
+                    'form_params' => [
                         'scope' => 'readonly',
-                        'grant_type' => base64_encode($this->clientId . ':' . $this->clientSecret),
-                        'client_id' => $this->clientId,
-                        'client_secret' => $this->clientSecret
+                        'grant_type' => 'client_credentials'
                     ]
                 ]);
 
@@ -119,6 +141,6 @@ class ItauClient
 
     public function registrar($parameters)
     {
-        return $this->__call($parameters);
+        return $this->__callItau($parameters);
     }
 }

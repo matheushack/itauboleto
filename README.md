@@ -1,5 +1,4 @@
 # Boleto Itaú
-[![Build Status](https://travis-ci.org/matheushack/itauboleto.svg?branch=master)](https://travis-ci.org/matheushack/itauboleto)
 [![Latest Stable Version](https://poser.pugx.org/matheushack/itauboleto/v/stable)](https://packagist.org/packages/matheushack/itauboleto)
 [![Latest Unstable Version](https://poser.pugx.org/matheushack/itauboleto/v/unstable)](https://packagist.org/packages/matheushack/itauboleto)
 [![Total Downloads](https://poser.pugx.org/matheushack/itauboleto/downloads)](https://packagist.org/packages/matheushack/itauboleto)

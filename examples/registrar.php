@@ -11,8 +11,13 @@ require '../vendor/autoload.php';
 use Carbon\Carbon;
 use MatheusHack\ItauBoleto\Itau;
 use MatheusHack\ItauBoleto\Constants\Especie;
+use MatheusHack\ItauBoleto\Constants\Retorno;
+use MatheusHack\ItauBoleto\Constants\Layout;
+use MatheusHack\ItauBoleto\Requests\DadosComplementaresRequest;
 
-$boletos[] = [
+
+// Obrigatório - Array com as informações necessárias para registro do boleto
+$boleto = [
     'tipo_carteira_titulo' => 109,
     'nosso_numero' => 'XXXXXXX',
     'data_vencimento' => Carbon::now()->addDays(15)->format('Y-m-d'),
@@ -35,6 +40,14 @@ $boletos[] = [
     ]
 ];
 
+// Opcional - Dados complementares para geração do layout do boleto
+$dadosComplementares = new DadosComplementaresRequest();
+$dadosComplementares->setInstrucoes([
+    "- TEXTO DE INSTRUÇÃO BENEFICIÁRIO 1",
+    "- TEXTO DE INSTRUÇÃO BENEFICIÁRIO 2",
+    "- TEXTO DE INSTRUÇÃO BENEFICIÁRIO 3",
+]);
+$dadosComplementares->setDemonstrativo('TEXTO NO CAMPO DEMONSTRATIVO');
 
 try {
     $itau = new Itau([
@@ -42,11 +55,23 @@ try {
         'clientSecret' => 'XXXXXXXXXXXX',
         'itauKey' => 'XXXXXXXXXXXX',
         'cnpj' => 'XXXXXXXXXXXX',
-        'production' => false
+        'production' => false,
+        'print' => Layout::HTML,
+        'return' => Retorno::OBJECT
     ]);
 
-    $boletosRegistrados = $itau->registrar($boletos);
-    echo $boletosRegistrados;
+    $boletosRegistrados = $itau->registrar($boletos, $dadosComplementares);
+
+    foreach($boletosRegistrados['data'] as $boletoResponse) {
+        if ($stream = fopen($boletoResponse['file'], 'r')) {
+            if ($printType == Layout::PDF)
+                header('Content-type: application/pdf');
+
+            echo stream_get_contents($stream);
+
+            fclose($stream);
+        }
+    }
 
 }catch(\Exception $e){
     dd($e->getMessage());

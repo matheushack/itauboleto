@@ -9,11 +9,24 @@
 namespace MatheusHack\ItauBoleto\Requests;
 
 
+/**
+ * Class DebitoRequest
+ * @package MatheusHack\ItauBoleto\Requests
+ */
 class DebitoRequest
 {
+    /**
+     * @var
+     */
     public $agencia_debito;
 
+    /**
+     * @var
+     */
     public $conta_debito;
 
+    /**
+     * @var
+     */
     public $digito_verificador_conta_debito;
 }

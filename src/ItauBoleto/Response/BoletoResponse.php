@@ -9,54 +9,135 @@
 namespace MatheusHack\ItauBoleto\Response;
 
 
+/**
+ * Class BoletoResponse
+ * @package MatheusHack\ItauBoleto\Response
+ */
 class BoletoResponse
 {
+    /**
+     * @var
+     */
     private $beneficiario;
 
+    /**
+     * @var
+     */
     private $pagador;
 
+    /**
+     * @var
+     */
     private $sacadorAvalista;
 
+    /**
+     * @var
+     */
     private $moeda;
 
+    /**
+     * @var
+     */
     private $vencimento;
 
+    /**
+     * @var
+     */
     private $tipoCarteira;
 
+    /**
+     * @var
+     */
     private $nossoNumero;
 
+    /**
+     * @var
+     */
     private $seuNumero;
 
+    /**
+     * @var
+     */
     private $especie;
 
+    /**
+     * @var
+     */
     private $codigoBarras;
 
+    /**
+     * @var
+     */
     private $linhaDigitavel;
 
+    /**
+     * @var
+     */
     private $localPagamento;
 
+    /**
+     * @var
+     */
     private $dataProcessamento;
 
+    /**
+     * @var
+     */
     private $dataEmissao;
 
+    /**
+     * @var
+     */
     private $usoBanco;
 
+    /**
+     * @var
+     */
     private $valor;
 
+    /**
+     * @var
+     */
     private $desconto;
 
+    /**
+     * @var
+     */
     private $outraDeducao;
 
+    /**
+     * @var
+     */
     private $juroMulta;
 
+    /**
+     * @var
+     */
     private $outroAcrescimo;
 
+    /**
+     * @var
+     */
     private $totalCobrado;
 
+    /**
+     * @var
+     */
     private $textoInformacaoClienteBeneficiario;
 
+    /**
+     * @var
+     */
+    private $demonstrativo;
+
+    /**
+     * @var
+     */
     private $status;
 
+    /**
+     * @var
+     */
     private $erros;
 
     /**
@@ -452,6 +533,24 @@ class BoletoResponse
     public function setTextoInformacaoClienteBeneficiario($textoInformacaoClienteBeneficiario)
     {
         $this->textoInformacaoClienteBeneficiario = $textoInformacaoClienteBeneficiario;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDesmonstrativo()
+    {
+        return $this->demonstrativo;
+    }
+
+    /**
+     * @param mixed $demonstrativo
+     * @return BoletoResponse
+     */
+    public function setDemonstrativo($demonstrativo)
+    {
+        $this->demonstrativo = $demonstrativo;
         return $this;
     }
 

@@ -15,34 +15,81 @@ use MatheusHack\ItauBoleto\Constants\TipoAmbiente;
 use MatheusHack\ItauBoleto\Exceptions\BoletoException;
 
 
+/**
+ * Class ItauClient
+ * @package MatheusHack\ItauBoleto
+ */
 class ItauClient
 {
+    /**
+     *
+     */
     const BOLETO_TESTE = 'https://gerador-boletos.itau.com.br/router-gateway-app/public/codigo_barras/registro';
 
+    /**
+     *
+     */
     const BOLETO_PRODUCAO = 'https://gerador-boletos.itau.com.br/router-gateway-app/public/codigo_barras/registro';
 
+    /**
+     *
+     */
     const OAUTH_TESTE = 'https://oauth.itau.com.br/identity/connect/token';
 
+    /**
+     *
+     */
     const OAUTH_PRODUCAO = 'https://autorizador-boletos.itau.com.br/';
 
+    /**
+     * @var Client
+     */
     private $httpClient;
 
+    /**
+     * @var
+     */
     private $accessToken;
 
+    /**
+     * @var mixed
+     */
     private $clientId;
 
+    /**
+     * @var mixed
+     */
     private $clientSecret;
 
+    /**
+     * @var mixed
+     */
     private $itauKey;
 
+    /**
+     * @var mixed
+     */
     private $cnpj;
 
+    /**
+     * @var string
+     */
     private $oAuthUrl;
 
+    /**
+     * @var string
+     */
     private $boletoUrl;
 
+    /**
+     * @var int
+     */
     private $ambiente;
 
+    /**
+     * ItauClient constructor.
+     * @param array $config
+     */
     public function __construct(array $config)
     {
         $this->httpClient = new Client();
@@ -56,6 +103,12 @@ class ItauClient
         $this->ambiente = (data_get($config,'production', false) === true ? TipoAmbiente::PRODUCAO : TipoAmbiente::TESTE);
     }
 
+    /**
+     * @param $parameters
+     * @return mixed
+     * @throws BoletoException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     private function __callItau($parameters)
     {
         $this->__authorize();
@@ -83,7 +136,7 @@ class ItauClient
             $bodyResponse = json_decode($response->getBody());
         }
 
-        if(data_get($bodyResponse, 'codigo')) {
+        if(array_key_exists('codigo',$bodyResponse)) {
             $jsonResponse = $bodyResponse;
             $bodyResponse = $parameters;
 
@@ -110,6 +163,9 @@ class ItauClient
         return $bodyResponse;
     }
 
+    /**
+     * @return bool
+     */
     private function __authorize()
     {
         if(empty($this->accessToken)){
@@ -145,6 +201,12 @@ class ItauClient
         return false;
     }
 
+    /**
+     * @param $parameters
+     * @return mixed
+     * @throws BoletoException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function registrar($parameters)
     {
         return $this->__callItau($parameters);

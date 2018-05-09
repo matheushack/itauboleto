@@ -12,18 +12,40 @@ namespace MatheusHack\ItauBoleto\Factories;
 use Illuminate\Support\Collection;
 use MatheusHack\ItauBoleto\Constants\Status;
 use MatheusHack\ItauBoleto\Helpers\Boleto;
+use MatheusHack\ItauBoleto\Requests\DadosComplementaresRequest;
 use MatheusHack\ItauBoleto\Response\BoletoResponse;
 use MatheusHack\ItauBoleto\Response\BoletosResponse;
 
+/**
+ * Class BoletoResponseFactory
+ * @package MatheusHack\ItauBoleto\Factories
+ */
 class BoletoResponseFactory
 {
+    /**
+     * @var
+     */
     private $boletos;
 
-    function __construct($response)
+    /**
+     * @var DadosComplementaresRequest
+     */
+    private $dadosComplementares;
+
+    /**
+     * BoletoResponseFactory constructor.
+     * @param $response
+     * @param DadosComplementaresRequest $dadosComplementares
+     */
+    function __construct($response, DadosComplementaresRequest $dadosComplementares)
     {
         $this->boletos = $response;
+        $this->dadosComplementares = $dadosComplementares;
     }
 
+    /**
+     * @return BoletosResponse
+     */
     public function make()
     {
         $boletosResponse = new BoletosResponse();
@@ -41,6 +63,10 @@ class BoletoResponseFactory
 
     }
 
+    /**
+     * @param $boleto
+     * @return BoletoResponse
+     */
     private function makeBoletoErro($boleto)
     {
         $boletoResponse = new BoletoResponse();
@@ -66,6 +92,10 @@ class BoletoResponseFactory
         return $boletoResponse;
     }
 
+    /**
+     * @param $boleto
+     * @return BoletoResponse
+     */
     private function makeBoletoSucesso($boleto)
     {
         $boletoResponse = new BoletoResponse();
@@ -90,7 +120,8 @@ class BoletoResponseFactory
             ->setJuroMulta(data_get($boleto, 'valor_juro_multa', null))
             ->setOutroAcrescimo(data_get($boleto, 'valor_outro_acrescimo', null))
             ->setTotalCobrado(data_get($boleto, 'valor_total_cobrado', null))
-            ->setTextoInformacaoClienteBeneficiario(data_get($boleto, 'lista_texto_informacao_cliente_beneficiario', null))
+            ->setTextoInformacaoClienteBeneficiario($this->dadosComplementares->getInstrucoes())
+            ->setDemonstrativo($this->dadosComplementares->getDemonstrativo())
             ->setStatus(Status::REGISTRADO);
 
         return $boletoResponse;

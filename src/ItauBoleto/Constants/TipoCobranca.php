@@ -9,13 +9,29 @@
 namespace MatheusHack\ItauBoleto\Constants;
 
 
+/**
+ * Class TipoCobranca
+ * @package MatheusHack\ItauBoleto\Constants
+ */
 class TipoCobranca
 {
+    /**
+     *
+     */
     const BOLETOS = 1;
 
+    /**
+     *
+     */
     const DEBITO_AUTOMATICO = 2;
 
+    /**
+     *
+     */
     const CARTAO_CREDITO = 3;
 
+    /**
+     *
+     */
     const TEF_REVERSA = 4;
 }

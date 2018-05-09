@@ -9,11 +9,24 @@
 namespace MatheusHack\ItauBoleto\Constants;
 
 
+/**
+ * Class Status
+ * @package MatheusHack\ItauBoleto\Constants
+ */
 class Status
 {
+    /**
+     *
+     */
     const REGISTRADO = 'registrado';
 
+    /**
+     *
+     */
     const ERRO_VALIDACAO = 'erro_validacao';
 
+    /**
+     *
+     */
     const ERRO = 'erro';
 }

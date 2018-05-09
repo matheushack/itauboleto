@@ -9,11 +9,24 @@
 namespace MatheusHack\ItauBoleto\Constants;
 
 
+/**
+ * Class TipoRegistro
+ * @package MatheusHack\ItauBoleto\Constants
+ */
 class TipoRegistro
 {
+    /**
+     *
+     */
     const REGISTRO = 1;
 
+    /**
+     *
+     */
     const ALTERACAO = 2;
 
+    /**
+     *
+     */
     const CONSULTA = 3;
 }

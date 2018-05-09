@@ -10,19 +10,57 @@ namespace MatheusHack\ItauBoleto\Transformers;
 
 use League\Fractal;
 use MatheusHack\ItauBoleto\Constants\Status;
+use MatheusHack\ItauBoleto\Constants\Layout;
+use MatheusHack\ItauBoleto\Services\ServiceBoleto;
 use MatheusHack\ItauBoleto\Response\BoletoResponse;
 
+/**
+ * Class BoletoTransformer
+ * @package MatheusHack\ItauBoleto\Transformers
+ */
 class BoletoTransformer extends Fractal\TransformerAbstract
 {
+    /**
+     * @var mixed
+     */
+    private $logo;
+
+    /**
+     * @var mixed
+     */
+    private $cachePath;
+
+    /**
+     * @var ServiceBoleto
+     */
+    private $serviceBoleto;
+
+    /**
+     * BoletoTransformer constructor.
+     * @param array $config
+     */
+    function __construct(array $config)
+    {
+        $this->print = data_get($config, 'print', 'none');
+        $this->logo = data_get($config,'logo', 'http://placehold.it/200&text=logo');
+        $this->cachePath = data_get($config,'cachePath', false);
+        $this->serviceBoleto = new ServiceBoleto($config);
+    }
+
+    /**
+     * @param BoletoResponse $boleto
+     * @return array
+     */
     public function transform(BoletoResponse $boleto)
     {
-        return [
+        $print = null;
+
+        $transform = [
             'id' => $boleto->getNossoNumero(),
             'beneficiario' => $boleto->getBeneficiario(),
             'pagador' => $boleto->getPagador(),
             'sacadorAvalista' => $boleto->getSacadorAvalista(),
             'moeda' => $boleto->getMoeda(),
-            'vencimento' => $boleto->getVencimento(),
             'tipoCarteira' => $boleto->getTipoCarteira(),
             'nossoNumero' => $boleto->getNossoNumero(),
             'seuNumero' => $boleto->getSeuNumero(),
@@ -30,6 +68,7 @@ class BoletoTransformer extends Fractal\TransformerAbstract
             'codigoBarras' => $boleto->getCodigoBarras(),
             'linhaDigitavel' => $boleto->getLinhaDigitavel(),
             'localPagamento' => $boleto->getLocalPagamento(),
+            'dataVencimento' => $boleto->getVencimento(),
             'dataProcessamento' => $boleto->getDataProcessamento(),
             'dataEmissao' => $boleto->getDataEmissao(),
             'usoBanco' => $boleto->getUsoBanco(),
@@ -40,8 +79,20 @@ class BoletoTransformer extends Fractal\TransformerAbstract
             'outroAcrescimo' => $boleto->getOutroAcrescimo(),
             'totalCobrado' => $boleto->getTotalCobrado(),
             'textoInformacaoClienteBeneficiario' => $boleto->getTextoInformacaoClienteBeneficiario(),
+            'demonstrativo' => $boleto->getDesmonstrativo(),
             'registrado' => ($boleto->getStatus() == Status::REGISTRADO ? true : false),
             'erros' => $boleto->getErros()
+        ];
+
+        if($boleto->getStatus() == Status::REGISTRADO && $this->print != Layout::NONE) {
+            if ($this->print == 'pdf')
+                $print = $this->serviceBoleto->printPdf($transform, $this->logo, $this->cachePath);
+            else
+                $print = $this->serviceBoleto->printHtml($transform, $this->logo, $this->cachePath);
+        }
+
+        return $transform + [
+            'file' => $print
         ];
     }
 }

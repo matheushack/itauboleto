@@ -9,7 +9,14 @@
 namespace MatheusHack\ItauBoleto\Requests;
 
 
+/**
+ * Class GrupoEmailPagadorRequest
+ * @package MatheusHack\ItauBoleto\Requests
+ */
 class GrupoEmailPagadorRequest
 {
+    /**
+     * @var
+     */
     public $email_pagador;
 }

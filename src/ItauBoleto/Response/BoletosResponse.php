@@ -9,8 +9,15 @@
 namespace MatheusHack\ItauBoleto\Response;
 
 
+/**
+ * Class BoletosResponse
+ * @package MatheusHack\ItauBoleto\Response
+ */
 class BoletosResponse
 {
+    /**
+     * @var array
+     */
     public $boletos = [];
 
     /**

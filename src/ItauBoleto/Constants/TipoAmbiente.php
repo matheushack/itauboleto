@@ -9,9 +9,19 @@
 namespace MatheusHack\ItauBoleto\Constants;
 
 
+/**
+ * Class TipoAmbiente
+ * @package MatheusHack\ItauBoleto\Constants
+ */
 class TipoAmbiente
 {
+    /**
+     *
+     */
     const TESTE = 1;
 
+    /**
+     *
+     */
     const PRODUCAO = 2;
 }

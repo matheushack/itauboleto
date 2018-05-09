@@ -9,8 +9,16 @@
 namespace MatheusHack\ItauBoleto\Helpers;
 
 
+/**
+ * Class Boleto
+ * @package MatheusHack\ItauBoleto\Helpers
+ */
 class Boleto
 {
+    /**
+     * @param $num
+     * @return int
+     */
     public static function mod10($num)
     {
         $numtotal10 = 0;
@@ -45,6 +53,11 @@ class Boleto
         return $digito;
     }
 
+    /**
+     * @param $value
+     * @param int $amount
+     * @return string
+     */
     public static function formatMoney($value, $amount = 1)
     {
         $money = str_replace(',', '', $value);
@@ -52,15 +65,43 @@ class Boleto
         return str_pad($money, $amount, '0', STR_PAD_LEFT);
     }
 
+    /**
+     * @param $value
+     * @param int $amount
+     * @return string
+     */
     public static function formatString($value, $amount = 1)
     {
         return (string) str_pad($value, $amount, '0', STR_PAD_LEFT);
     }
 
+    /**
+     * @param $object
+     * @return object
+     */
     public static function removeNullValue($object)
     {
         return (object) array_filter((array) $object, function($var){
             return !is_null($var);
         });
     }
+
+    /**
+     * @param $cnpj
+     * @return string
+     */
+    public function formatCnpj($cnpj) {
+        $cnpj = trim($cnpj);
+        if(preg_match('/^[0-9]+$/', $cnpj)) {
+            $aux = str_split($cnpj);
+            array_splice($aux, 2, 0, '.');
+            array_splice($aux, 6, 0, '.');
+            array_splice($aux, 10, 0, '/');
+            array_splice($aux, 15, 0, '-');
+            return implode('', $aux);
+        }
+
+        return $cnpj;
+    }
+
 }

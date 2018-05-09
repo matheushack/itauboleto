@@ -9,9 +9,19 @@
 namespace MatheusHack\ItauBoleto\Constants;
 
 
+/**
+ * Class TipoAceite
+ * @package MatheusHack\ItauBoleto\Constants
+ */
 class TipoAceite
 {
+    /**
+     *
+     */
     const COBRANCA = 'S';
 
+    /**
+     *
+     */
     const PROPOSTA = 'N';
 }

@@ -9,22 +9,50 @@
 namespace MatheusHack\ItauBoleto\Response;
 
 
+/**
+ * Class PagadorResponse
+ * @package MatheusHack\ItauBoleto\Response
+ */
 class PagadorResponse
 {
+    /**
+     * @var
+     */
     private $documentoIdentificacao;
 
+    /**
+     * @var
+     */
     private $razaoSocial;
 
+    /**
+     * @var
+     */
     private $logradouro;
 
+    /**
+     * @var
+     */
     private $bairro;
 
+    /**
+     * @var
+     */
     private $complemento;
 
+    /**
+     * @var
+     */
     private $cidade;
 
+    /**
+     * @var
+     */
     private $uf;
 
+    /**
+     * @var
+     */
     private $cep;
 
     /**

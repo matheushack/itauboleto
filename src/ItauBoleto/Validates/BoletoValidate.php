@@ -11,8 +11,16 @@ namespace MatheusHack\ItauBoleto\Validates;
 
 use MatheusHack\ItauBoleto\Exceptions\ValidationException;
 
+/**
+ * Class BoletoValidate
+ * @package MatheusHack\ItauBoleto\Validates
+ */
 class BoletoValidate
 {
+    /**
+     * @param array $config
+     * @throws ValidationException
+     */
     public function config($config = [])
     {
         if(empty($config))

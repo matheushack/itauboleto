@@ -22,8 +22,16 @@ use MatheusHack\ItauBoleto\Requests\SacadorAvalistaRequest;
 use MatheusHack\ItauBoleto\Requests\GrupoEmailPagadorRequest;
 use MatheusHack\ItauBoleto\Requests\RecebimentoDivergenteRequest;
 
+/**
+ * Class BoletoRequestFactory
+ * @package MatheusHack\ItauBoleto\Factories
+ */
 class BoletoRequestFactory
 {
+    /**
+     * @param array $boleto
+     * @return object
+     */
     public function make(array $boleto)
     {
         $boletoRequest = new BoletoRequest();
@@ -62,9 +70,9 @@ class BoletoRequestFactory
         $boletoRequest->moeda = $this->setMoeda(data_get($boleto, 'moeda', []));
         $boletoRequest->beneficiario =  $this->setBeneficiario(data_get($boleto, 'beneficiario', []));
         $boletoRequest->pagador = $this->setPagador(data_get($boleto, 'pagador', []));
+        $boletoRequest->grupo_desconto = $this->setGrupoDesconto(data_get($boleto, 'grupo_desconto', []));
         $boletoRequest->juros = $this->setJuros(data_get($boleto, 'juros', []));
         $boletoRequest->multa = $this->setMulta(data_get($boleto, 'multa', []));
-        $boletoRequest->grupo_desconto = $this->setGrupoDesconto(data_get($boleto, 'grupo_desconto', []));
         $boletoRequest->recebimento_divergente = $this->setRecebimentoDivergente(data_get($boleto, 'recebimento_divergente', []));
         $boletoRequest->digito_verificador_nosso_numero = $this->makeDigitoVerificadorNossoNumero($boletoRequest);
 
@@ -82,12 +90,20 @@ class BoletoRequestFactory
         return Boleto::removeNullValue($boletoRequest);
     }
 
+    /**
+     * @param BoletoRequest $boletoRequest
+     * @return int
+     */
     private function makeDigitoVerificadorNossoNumero(BoletoRequest $boletoRequest)
     {
         $number = $boletoRequest->beneficiario->agencia_beneficiario.$boletoRequest->beneficiario->conta_beneficiario.$boletoRequest->tipo_carteira_titulo.$boletoRequest->nosso_numero;
         return Boleto::mod10($number);
     }
 
+    /**
+     * @param array $data
+     * @return object
+     */
     private function setBeneficiario($data = [])
     {
         $beneficiario = new BeneficiarioRequest();
@@ -99,6 +115,10 @@ class BoletoRequestFactory
         return Boleto::removeNullValue($beneficiario);
     }
 
+    /**
+     * @param array $data
+     * @return object
+     */
     private function setDebito($data = [])
     {
         $debito = new DebitoRequest();
@@ -109,6 +129,10 @@ class BoletoRequestFactory
         return Boleto::removeNullValue($debito);
     }
 
+    /**
+     * @param array $data
+     * @return object
+     */
     private function setPagador($data = [])
     {
         $pagador = new PagadorRequest();
@@ -126,6 +150,10 @@ class BoletoRequestFactory
         return Boleto::removeNullValue($pagador);
     }
 
+    /**
+     * @param array $data
+     * @return array
+     */
     private function setGrupoEmailPagador($data = [])
     {
         $emails = [];
@@ -139,6 +167,10 @@ class BoletoRequestFactory
         return $emails;
     }
 
+    /**
+     * @param array $data
+     * @return object
+     */
     private function setSacadorAvalista($data = [])
     {
         $sacadorAvalista = new SacadorAvalistaRequest();
@@ -153,6 +185,10 @@ class BoletoRequestFactory
         return Boleto::removeNullValue($sacadorAvalista);
     }
 
+    /**
+     * @param array $data
+     * @return object
+     */
     private function setMoeda($data = [])
     {
         $moeda = new MoedaRequest();
@@ -161,39 +197,62 @@ class BoletoRequestFactory
         return Boleto::removeNullValue($moeda);
     }
 
+    /**
+     * @param array $data
+     * @return object
+     */
     private function setJuros($data = [])
     {
         $juros = new JurosRequest();
         $juros->data_juros = data_get($data, 'data', $juros->data_juros);
         $juros->tipo_juros = data_get($data, 'tipo', $juros->tipo_juros);
         $juros->valor_juros = data_get($data, 'valor', $juros->valor_juros);
-        $juros->percentual_juros = data_get($data, 'percentual', $juros->percentual_juros);
+        $juros->percentual_juros = Boleto::formatMoney(data_get($data, 'percentual', $juros->percentual_juros),12);
 
         return Boleto::removeNullValue($juros);
     }
 
+    /**
+     * @param array $data
+     * @return object
+     */
     private function setMulta($data = [])
     {
         $multa = new MultaRequest();
         $multa->data_multa = data_get($data, 'data', $multa->data_multa);
         $multa->tipo_multa = data_get($data, 'tipo', $multa->tipo_multa);
         $multa->valor_multa = data_get($data, 'valor', $multa->valor_multa);
-        $multa->percentual_multa = data_get($data, 'percentual', $multa->percentual_multa);
+        $multa->percentual_multa = Boleto::formatMoney(data_get($data, 'percentual', $multa->percentual_multa),12);
 
         return Boleto::removeNullValue($multa);
     }
 
+    /**
+     * @param array $data
+     * @return array
+     */
     private function setGrupoDesconto($data = [])
     {
-        $grupoDesconto = new GrupoDescontoRequest();
-        $grupoDesconto->data_desconto = data_get($data, 'data', $grupoDesconto->data_desconto);
-        $grupoDesconto->tipo_desconto = data_get($data, 'tipo', $grupoDesconto->tipo_desconto);
-        $grupoDesconto->valor_desconto = data_get($data, 'valor', $grupoDesconto->valor_desconto);
-        $grupoDesconto->percentual_desconto = data_get($data, 'percentual', $grupoDesconto->percentual_desconto);
+        $returnGrupoDesconto = [];
+        $grupoArray = (array_key_exists(0, $data) ? $data : [$data]);
 
-        return Boleto::removeNullValue($grupoDesconto);
+        foreach($grupoArray as $grupo){
+            $grupoDesconto = new GrupoDescontoRequest();
+            $grupoDesconto->data_desconto = data_get($grupo, 'data', $grupoDesconto->data_desconto);
+            $grupoDesconto->tipo_desconto = data_get($grupo, 'tipo', $grupoDesconto->tipo_desconto);
+            $grupoDesconto->valor_desconto = data_get($grupo, 'valor', $grupoDesconto->valor_desconto);
+            $grupoDesconto->percentual_desconto = data_get($grupo, 'percentual', $grupoDesconto->percentual_desconto);
+
+            $returnGrupoDesconto[] = Boleto::removeNullValue($grupoDesconto);
+        }
+
+        return $returnGrupoDesconto;
     }
 
+    /**
+     * @param array $data
+     * @return object
+     */
     private function setRecebimentoDivergente($data = [])
     {
         $recebimentoDivergente = new RecebimentoDivergenteRequest();
@@ -207,6 +266,10 @@ class BoletoRequestFactory
         return Boleto::removeNullValue($recebimentoDivergente);
     }
 
+    /**
+     * @param array $data
+     * @return object
+     */
     private function setGrupoRateio($data = [])
     {
         $grupoRateio = new GrupoRateioRequest();

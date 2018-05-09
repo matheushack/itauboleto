@@ -9,11 +9,24 @@
 namespace MatheusHack\ItauBoleto\Constants;
 
 
+/**
+ * Class TipoMulta
+ * @package MatheusHack\ItauBoleto\Constants
+ */
 class TipoMulta
 {
+    /**
+     *
+     */
     const COBRAR_VALOR_FIXO_APOS_VENCIMENTO = 1;
 
+    /**
+     *
+     */
     const COBRAR_PERCENTUAL_VALOR_TITULO_APOS_VENCIMENTO = 2;
 
+    /**
+     *
+     */
     const ISENTO = 3;
 }

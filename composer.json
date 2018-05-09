@@ -14,7 +14,9 @@
     "illuminate/database": "~5.1",
     "guzzlehttp/guzzle": "^6.3",
     "nesbot/carbon": "~1.21",
-    "league/fractal": "^0.17.0"
+    "league/fractal": "^0.17.0",
+    "mikehaertl/php-tmpfile": "^1.1",
+    "jefersondaniel/novoboletophp": "dev-master"
   },
   "autoload": {
     "psr-4": {

@@ -207,7 +207,7 @@ class BoletoRequestFactory
         $juros->data_juros = data_get($data, 'data', $juros->data_juros);
         $juros->tipo_juros = data_get($data, 'tipo', $juros->tipo_juros);
         $juros->valor_juros = data_get($data, 'valor', $juros->valor_juros);
-        $juros->percentual_juros = Boleto::formatMoney(data_get($data, 'percentual', $juros->percentual_juros),12);
+        $juros->percentual_juros = Boleto::formatDecimal(data_get($data, 'percentual', $juros->percentual_juros),7, 5);
 
         return Boleto::removeNullValue($juros);
     }
@@ -222,7 +222,7 @@ class BoletoRequestFactory
         $multa->data_multa = data_get($data, 'data', $multa->data_multa);
         $multa->tipo_multa = data_get($data, 'tipo', $multa->tipo_multa);
         $multa->valor_multa = data_get($data, 'valor', $multa->valor_multa);
-        $multa->percentual_multa = Boleto::formatMoney(data_get($data, 'percentual', $multa->percentual_multa),12);
+        $multa->percentual_multa = Boleto::formatDecimal(data_get($data, 'percentual', $multa->percentual_multa),7, 5);
 
         return Boleto::removeNullValue($multa);
     }

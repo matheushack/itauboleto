@@ -65,6 +65,16 @@ class Boleto
         return str_pad($money, $amount, '0', STR_PAD_LEFT);
     }
 
+    public static function formatDecimal($value, $amount = 1, $decimal = 2)
+    {
+        $money = str_replace(',', '', $value);
+        $money = str_replace('.', '', $money);
+        $money = str_pad($money, $amount, '0', STR_PAD_LEFT);
+        $money = str_pad($money, $decimal, '0', STR_PAD_RIGHT);
+
+        return $money;
+    }
+
     /**
      * @param $value
      * @param int $amount

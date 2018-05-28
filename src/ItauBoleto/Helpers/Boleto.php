@@ -100,7 +100,7 @@ class Boleto
      * @param $cnpj
      * @return string
      */
-    public function formatCnpj($cnpj) {
+    public static function formatCnpj($cnpj) {
         $cnpj = trim($cnpj);
         if(preg_match('/^[0-9]+$/', $cnpj)) {
             $aux = str_split($cnpj);

@@ -82,8 +82,8 @@ class ServiceBoleto
             ]);
 
             $dados = [
-                'nosso_numero' => $boleto['nossoNumero'],
-                'numero_documento' => $boleto['id'],
+                'nosso_numero' => substr($boleto['nossoNumero'], 0,8),
+                'numero_documento' => substr($boleto['id'], 0,8),
                 'data_vencimento' => Carbon::parse($boleto['dataVencimento'])->format('d/m/Y'),
                 'data_documento' => Carbon::parse($boleto['dataEmissao'])->format('d/m/Y'),
                 'data_processamento' => Carbon::parse($boleto['dataProcessamento'])->format('d/m/Y'),

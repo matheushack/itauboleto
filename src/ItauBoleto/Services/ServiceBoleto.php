@@ -70,15 +70,15 @@ class ServiceBoleto
      * @param $cachePath
      * @return null|string
      */
-    public function printHtml(array $boleto, $logoEmpresa, $cachePath)
+    public function printHtml(array $boleto, $logoEmpresa, $cachePath, $imagesPath)
     {
         try {
 
-            $currentLocation = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+            // $currentLocation = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 
             $factory = new BoletoFactory([
                 'cachePath' => $cachePath,
-                'imageUrl' => dirname($currentLocation) . '/images'
+                'imageUrl' => $imagesPath
             ]);
 
             $dados = [

@@ -57,7 +57,9 @@ try {
         'cnpj' => 'XXXXXXXXXXXX',
         'production' => false,
         'print' => Layout::HTML,
-        'return' => Retorno::OBJECT
+        'return' => Retorno::OBJECT, 
+        'logo' =>  '/caminho/logo.png',
+        'images' => '/caminho/img/boleto', // caminho da pasta que contem as imagens presente no boleto, caso necessário passar o caminho completo e public. 
     ]);
 
     $boletosRegistrados = $itau->registrar($boletos, $dadosComplementares);

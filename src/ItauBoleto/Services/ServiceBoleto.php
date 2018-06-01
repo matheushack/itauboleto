@@ -73,12 +73,9 @@ class ServiceBoleto
     public function printHtml(array $boleto, $logoEmpresa, $cachePath)
     {
         try {
-
-            $currentLocation = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-
             $factory = new BoletoFactory([
                 'cachePath' => $cachePath,
-                'imageUrl' => dirname($currentLocation) . '/images'
+                'imageUrl' => realpath(dirname(__FILE__)."/../../resources/images")
             ]);
 
             $dados = [
@@ -132,11 +129,9 @@ class ServiceBoleto
     public function printPdf(array $boleto, $logoEmpresa, $cachePath)
     {
         try {
-            $currentLocation = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-
             $factory = new BoletoFactory([
                 'cachePath' => $cachePath,
-                'imageUrl' => dirname($currentLocation) . '/images'
+                'imageUrl' => realpath(dirname(__FILE__)."/../../resources/images")
             ]);
 
             $dados = [

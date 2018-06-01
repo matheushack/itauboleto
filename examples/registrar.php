@@ -60,7 +60,7 @@ try {
         'return' => Retorno::OBJECT
     ]);
 
-    $boletosRegistrados = $itau->registrar($boletos, $dadosComplementares);
+    $boletosRegistrados = $itau->registrar($boleto, $dadosComplementares);
 
     foreach($boletosRegistrados['data'] as $boletoResponse) {
         if ($stream = fopen($boletoResponse['file'], 'r')) {

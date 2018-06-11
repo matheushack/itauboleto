@@ -39,7 +39,7 @@ class ItauClient
     /**
      *
      */
-    const OAUTH_PRODUCAO = 'https://autorizador-boletos.itau.com.br/';
+    const OAUTH_PRODUCAO = 'https://oauth.itau.com.br/identity/connect/token';
 
     /**
      * @var Client

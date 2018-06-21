@@ -66,10 +66,10 @@ class Itau
         $boletos = $this->serviceBoleto->registrar($boletos, $dadosComplementares);
 
         if($boletos->count() > 0) {
-            if(data_get($this->config, 'return', Retorno::OBJECT) == 'json')
+            if(data_get($this->config, 'return', Retorno::TO_OBJECT) == 'json')
                 return Fractal::collection($boletos, new BoletoTransformer($this->config))->toJson();
 
-            if(data_get($this->config, 'return', Retorno::OBJECT) == 'array')
+            if(data_get($this->config, 'return', Retorno::TO_OBJECT) == 'array')
                 return Fractal::collection($boletos, new BoletoTransformer($this->config))->toArray();
 
             return array_map(function($input){

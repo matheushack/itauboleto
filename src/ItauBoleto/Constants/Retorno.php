@@ -18,15 +18,15 @@ class Retorno
     /**
      *
      */
-    const ARRAY = 'array';
+    const TO_ARRAY = 'array';
 
     /**
      *
      */
-    const JSON =  'json';
+    const TO_JSON =  'json';
 
     /**
      *
      */
-    const OBJECT = 'object';
+    const TO_OBJECT = 'object';
 }

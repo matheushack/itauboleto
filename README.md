@@ -65,7 +65,7 @@ try {
         'cnpj' => 'XXXXXXXXXXXX',
         'production' => false,
         'print' => Layout::HTML,
-        'return' => Retorno::OBJECT
+        'return' => Retorno::TO_OBJECT
     ]);
 
     $boletosRegistrados = $itau->registrar($boletos, $dadosComplementares);
